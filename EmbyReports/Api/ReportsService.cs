@@ -187,7 +187,6 @@ namespace EmbyReports.Api
                 OrderBy = request.GetOrderBy(),
 
                 IsFavorite = request.IsFavorite,
-                Limit = request.Limit,
                 StartIndex = request.StartIndex,
                 IsMissing = request.IsMissing,
                 IsUnaired = request.IsUnaired,
@@ -400,6 +399,11 @@ namespace EmbyReports.Api
                         new ValueTuple<string, SortOrder>(ItemSortBy.SortName, SortOrder.Ascending)
                     };
                 }
+            }
+
+            if (request.Limit > -1 && request.Limit < int.MaxValue)
+            {
+                query.Limit = request.Limit;
             }
 
             return query;
