@@ -380,7 +380,7 @@ namespace EmbyReports.Api.Data
                     
                 case HeaderMetadata.Path:
                     option.Column = (i, r) => i.Path;
-                    option.Header.SortField = "SortName";
+                    option.Header.SortField = "Path,SortName";
                     break;
 
                 case HeaderMetadata.Name:

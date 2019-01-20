@@ -1177,7 +1177,7 @@
                 cellHtml += (header.Name || '&nbsp;');
                 if (header.SortField) {
                     cellHtml += '</a>';
-                    if (header.SortField === defaultSortBy) {
+                    if (header.SortField === query.SortBy) {
 
                         if (query.SortOrder === "Descending") {
                             cellHtml += '<span style="font-weight:bold;margin-left:5px;vertical-align:top;">&darr;</span>';
