@@ -188,7 +188,6 @@ namespace EmbyReports.Api.Data
                         HeaderMetadata.ImagePrimary,
                         HeaderMetadata.ImageBackdrop,
                         HeaderMetadata.ImageLogo,
-                        HeaderMetadata.Path,
                         HeaderMetadata.Name,
                         HeaderMetadata.DateAdded,
                         HeaderMetadata.ReleaseDate,
@@ -202,7 +201,8 @@ namespace EmbyReports.Api.Data
                         HeaderMetadata.Audio,
                         HeaderMetadata.Subtitles,
                         HeaderMetadata.Trailers,
-                        HeaderMetadata.Specials
+                        HeaderMetadata.Specials,
+                        HeaderMetadata.Path
                     };
 
                 case ReportIncludeItemTypes.Book:
@@ -271,7 +271,6 @@ namespace EmbyReports.Api.Data
                         HeaderMetadata.ImagePrimary,
                         HeaderMetadata.ImageBackdrop,
                         HeaderMetadata.ImageLogo,
-                        HeaderMetadata.Path,
                         HeaderMetadata.Name,
                         HeaderMetadata.EpisodeSeries,
                         HeaderMetadata.Season,
@@ -288,7 +287,8 @@ namespace EmbyReports.Api.Data
                         HeaderMetadata.Audio,
                         HeaderMetadata.Subtitles,
                         HeaderMetadata.Trailers,
-                        HeaderMetadata.Specials
+                        HeaderMetadata.Specials,
+                        HeaderMetadata.Path
                     };
 
                 case ReportIncludeItemTypes.Video:
@@ -380,7 +380,6 @@ namespace EmbyReports.Api.Data
                     
                 case HeaderMetadata.Path:
                     option.Column = (i, r) => i.Path;
-                    option.Header.ItemViewType = ItemViewType.Detail;
                     option.Header.SortField = "SortName";
                     break;
 
@@ -408,6 +407,7 @@ namespace EmbyReports.Api.Data
                     option.Column = (i, r) => this.GetRuntimeDateTime(i.RunTimeTicks);
                     option.Header.HeaderFieldType = ReportFieldType.Minutes;
                     option.Header.SortField = "Runtime,SortName";
+                    option.Header.CanGroup = false;
                     break;
 
                 case HeaderMetadata.PlayCount:
@@ -609,7 +609,8 @@ namespace EmbyReports.Api.Data
             var video = item as Video;
             ReportRow rRow = new ReportRow
             {
-                Id = item.Id.ToString("N"),
+                Id = item.InternalId.ToString(),
+                //GuidId = item.Id.ToString("N"),
                 HasLockData = item.IsLocked,
                 HasLocalTrailer = item.GetExtras(new[] { ExtraType.Trailer }).Any(),
                 HasImageTagsPrimary = item.ImageInfos != null && item.ImageInfos.Count(n => n.Type == ImageType.Primary) > 0,
