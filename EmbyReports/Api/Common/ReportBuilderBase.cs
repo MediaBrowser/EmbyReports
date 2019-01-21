@@ -193,8 +193,10 @@ namespace EmbyReports.Api.Common
         {
             if (string.IsNullOrEmpty(name))
                 return string.Empty;
-            return string.Format("{0:N}",
-                    GetPerson(name).Id);
+            Person person = GetPerson(name);
+            if (person == null)
+                return string.Empty;
+            return string.Format("{0:N}", person.Id);
         }
 
         /// <summary> Gets report options. </summary>
