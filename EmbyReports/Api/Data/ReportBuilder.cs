@@ -511,7 +511,7 @@ namespace EmbyReports.Api.Data
 
                     break;
                 case HeaderMetadata.MusicArtist:
-                    option.Column = (i, r) => this.GetObject<MusicArtist, string>(i, (x) => x.GetLookupInfo().Name);
+                    option.Column = (i, r) => this.GetObject<MusicArtist, string>(i, (x) => x.Name);
                     option.Header.ItemViewType = ItemViewType.Detail;
                     option.Header.SortField = "AlbumArtist,Album,SortName";
                     internalHeader = HeaderMetadata.AlbumArtist;

@@ -367,13 +367,13 @@ namespace EmbyReports.Api
             // Min official rating
             if (!string.IsNullOrWhiteSpace(request.MinOfficialRating))
             {
-                query.MinParentalRating = _localization.GetRatingLevel(request.MinOfficialRating);
+                query.MinParentalRating = _localization.GetRatingLevel(request.MinOfficialRating.AsSpan());
             }
 
             // Max official rating
             if (!string.IsNullOrWhiteSpace(request.MaxOfficialRating))
             {
-                query.MaxParentalRating = _localization.GetRatingLevel(request.MaxOfficialRating);
+                query.MaxParentalRating = _localization.GetRatingLevel(request.MaxOfficialRating.AsSpan());
             }
 
             // ExcludeArtistIds
@@ -431,7 +431,7 @@ namespace EmbyReports.Api
             }
 
             var hasCollectionType = folder as IHasCollectionType;
-            var isPlaylistQuery = (hasCollectionType != null && string.Equals(hasCollectionType.CollectionType, CollectionType.Playlists, StringComparison.OrdinalIgnoreCase));
+            var isPlaylistQuery = (hasCollectionType != null && CollectionType.Playlists.Span.Equals(hasCollectionType.CollectionType.AsSpan(), StringComparison.OrdinalIgnoreCase));
 
             if (isPlaylistQuery)
             {
