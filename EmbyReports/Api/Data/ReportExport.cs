@@ -8,41 +8,49 @@ namespace EmbyReports.Api.Data
 {
     /// <summary> A report export. </summary>
     public class ReportExport
-	{
-		/// <summary> Export to CSV. </summary>
-		/// <param name="reportResult"> The report result. </param>
-		/// <returns> A string. </returns>
-		public string ExportToCsv(ReportResult reportResult)
-		{
-			StringBuilder returnValue = new StringBuilder();
+    {
+        /// <summary> Export to CSV. </summary>
+        /// <param name="reportResult"> The report result. </param>
+        /// <returns> A string. </returns>
+        public string ExportToCsv(ReportResult reportResult)
+        {
+            StringBuilder returnValue = new StringBuilder();
 
-			returnValue.AppendLine(string.Join(";", reportResult.Headers.Select(s => s.Name.Replace(',', ' ')).ToArray()));
+            returnValue.AppendLine(string.Join(";", reportResult.Headers.Select(s => s.Name.Replace(',', ' ')).ToArray()));
 
-			if (reportResult.IsGrouped)
-				foreach (ReportGroup group in reportResult.Groups)
-				{
-					foreach (ReportRow row in reportResult.Rows)
-					{
-						returnValue.AppendLine(string.Join(";", row.Columns.Select(s => s.Name.Replace(',', ' ')).ToArray()));
-					}
-				}
-			else
-				foreach (ReportRow row in reportResult.Rows)
-				{
-					returnValue.AppendLine(string.Join(";", row.Columns.Select(s => s.Name.Replace(',', ' ')).ToArray()));
-				}
+            if (reportResult.IsGrouped)
+                foreach (ReportGroup group in reportResult.Groups)
+                {
+                    foreach (ReportRow row in reportResult.Rows)
+                    {
+                        returnValue.AppendLine(string.Join(";", row.Columns.Select(s =>
+                        {
+                            var name = s.Name.Replace(',', ' ');
+                            return name.Contains(";") ? $"\"{name}\"" : name;
+                        }).ToArray()));
+                    }
+                }
+            else
+                foreach (ReportRow row in reportResult.Rows)
+                {
+                    returnValue.AppendLine(string.Join(";", row.Columns.Select(s =>
+                    {
+                        var name = s.Name.Replace(',', ' ');
+                        return name.Contains(";") ? $"\"{name}\"" : name;
+                    }).ToArray()));
+                }
 
-			return returnValue.ToString();
-		}
+            return returnValue.ToString();
+        }
 
 
-		/// <summary> Export to excel. </summary>
-		/// <param name="reportResult"> The report result. </param>
-		/// <returns> A string. </returns>
-		public string ExportToExcel(ReportResult reportResult)
-		{
+        /// <summary> Export to excel. </summary>
+        /// <param name="reportResult"> The report result. </param>
+        /// <returns> A string. </returns>
+        public string ExportToExcel(ReportResult reportResult)
+        {
 
-			string style = @"<style type='text/css'>
+            string style = @"<style type='text/css'>
 							BODY {
 									font-family: Arial;
 									font-size: 12px;
@@ -157,56 +165,56 @@ namespace EmbyReports.Api.Data
 								}
 						</style>";
 
-			string Html = @"<!DOCTYPE html>
+            string Html = @"<!DOCTYPE html>
 							<html xmlns='http://www.w3.org/1999/xhtml'>
 							<head>
 							<meta http-equiv='X-UA-Compatible' content='IE=8, IE=9, IE=10' />
 							<meta charset='utf-8'>
 							<title>Emby Reports Export</title>";
-			Html += "\n" + style + "\n";
-			Html += "</head>\n";
-			Html += "<body>\n";
+            Html += "\n" + style + "\n";
+            Html += "</head>\n";
+            Html += "<body>\n";
 
-			StringBuilder returnValue = new StringBuilder();
-			returnValue.AppendLine("<table  class='gridtable'>");
-			returnValue.AppendLine("<tr>");
-			returnValue.AppendLine(string.Join("", reportResult.Headers.Select(s => string.Format("<th>{0}</th>", s.Name)).ToArray()));
-			returnValue.AppendLine("</tr>");
-			if (reportResult.IsGrouped)
-				foreach (ReportGroup group in reportResult.Groups)
-				{
-					returnValue.AppendLine("<tr>");
-					returnValue.AppendLine("<th scope='rowgroup' colspan='" + reportResult.Headers.Count + "'>" + (string.IsNullOrEmpty(group.Name) ? "&nbsp;" : group.Name) + "</th>");
-					returnValue.AppendLine("</tr>");
-					foreach (ReportRow row in group.Rows)
-					{
-						ExportToExcelRow(reportResult, returnValue, row);
-					}
-					returnValue.AppendLine("<tr>");
-					returnValue.AppendLine("<th style='background-color: #ffffff;' scope='rowgroup' colspan='" + reportResult.Headers.Count + "'>" + "&nbsp;" + "</th>");
-					returnValue.AppendLine("</tr>");
-				}
+            StringBuilder returnValue = new StringBuilder();
+            returnValue.AppendLine("<table  class='gridtable'>");
+            returnValue.AppendLine("<tr>");
+            returnValue.AppendLine(string.Join("", reportResult.Headers.Select(s => string.Format("<th>{0}</th>", s.Name)).ToArray()));
+            returnValue.AppendLine("</tr>");
+            if (reportResult.IsGrouped)
+                foreach (ReportGroup group in reportResult.Groups)
+                {
+                    returnValue.AppendLine("<tr>");
+                    returnValue.AppendLine("<th scope='rowgroup' colspan='" + reportResult.Headers.Count + "'>" + (string.IsNullOrEmpty(group.Name) ? "&nbsp;" : group.Name) + "</th>");
+                    returnValue.AppendLine("</tr>");
+                    foreach (ReportRow row in group.Rows)
+                    {
+                        ExportToExcelRow(reportResult, returnValue, row);
+                    }
+                    returnValue.AppendLine("<tr>");
+                    returnValue.AppendLine("<th style='background-color: #ffffff;' scope='rowgroup' colspan='" + reportResult.Headers.Count + "'>" + "&nbsp;" + "</th>");
+                    returnValue.AppendLine("</tr>");
+                }
 
-			else
-				foreach (ReportRow row in reportResult.Rows)
-				{
-					ExportToExcelRow(reportResult, returnValue, row);
-				}
-			returnValue.AppendLine("</table>");
+            else
+                foreach (ReportRow row in reportResult.Rows)
+                {
+                    ExportToExcelRow(reportResult, returnValue, row);
+                }
+            returnValue.AppendLine("</table>");
 
-			Html += returnValue.ToString();
-			Html += "</body>";
-			Html += "</html>";
-			return Html;
-		}
-		private static void ExportToExcelRow(ReportResult reportResult,
-			StringBuilder returnValue,
-			ReportRow row)
-		{
-			returnValue.AppendLine("<tr>");
-			returnValue.AppendLine(string.Join("", row.Columns.Select(s => string.Format("<td>{0}</td>", s.Name)).ToArray()));
-			returnValue.AppendLine("</tr>");
-		}
-	}
+            Html += returnValue.ToString();
+            Html += "</body>";
+            Html += "</html>";
+            return Html;
+        }
+        private static void ExportToExcelRow(ReportResult reportResult,
+            StringBuilder returnValue,
+            ReportRow row)
+        {
+            returnValue.AppendLine("<tr>");
+            returnValue.AppendLine(string.Join("", row.Columns.Select(s => string.Format("<td>{0}</td>", s.Name)).ToArray()));
+            returnValue.AppendLine("</tr>");
+        }
+    }
 
 }
