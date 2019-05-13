@@ -25,8 +25,8 @@ namespace EmbyReports.Api.Data
                     {
                         returnValue.AppendLine(string.Join(";", row.Columns.Select(s =>
                         {
-                            var name = s.Name.Replace(',', ' ');
-                            return name.Contains(";") ? $"\"{name}\"" : name;
+                            var name = s.Name.Replace(',', ' ').Replace("\"", "\"\"");
+                            return name.Contains(";") || name.Contains("\"") ? $"\"{name}\"" : name;
                         }).ToArray()));
                     }
                 }
@@ -35,8 +35,8 @@ namespace EmbyReports.Api.Data
                 {
                     returnValue.AppendLine(string.Join(";", row.Columns.Select(s =>
                     {
-                        var name = s.Name.Replace(',', ' ');
-                        return name.Contains(";") ? $"\"{name}\"" : name;
+                        var name = s.Name.Replace(',', ' ').Replace("\"", "\"\"");
+                        return name.Contains(";") || name.Contains("\"") ? $"\"{name}\"" : name;
                     }).ToArray()));
                 }
 
