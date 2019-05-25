@@ -159,14 +159,15 @@ namespace EmbyReports.Api
                     break;
             }
 
-            string returnResult = string.Empty;
+            ReadOnlySpan<char> returnResult = default(ReadOnlySpan<char>);
+
             switch (request.ExportType)
             {
                 case ReportExportType.CSV:
-                    returnResult = new ReportExport().ExportToCsv(result);
+                    returnResult = new ReportExport().ExportToCsv(result).AsSpan();
                     break;
                 case ReportExportType.Excel:
-                    returnResult = new ReportExport().ExportToExcel(result);
+                    returnResult = new ReportExport().ExportToExcel(result).AsSpan();
                     break;
             }
 
