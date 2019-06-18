@@ -189,7 +189,7 @@ namespace EmbyReports.Api
 
                 IsFavorite = request.IsFavorite,
                 StartIndex = request.StartIndex,
-                IsMissing = request.IsMissing,
+                IsVirtualItem = request.IsMissing,
                 IsUnaired = request.IsUnaired,
                 NameLessThan = request.NameLessThan,
                 NameStartsWith = request.NameStartsWith,
