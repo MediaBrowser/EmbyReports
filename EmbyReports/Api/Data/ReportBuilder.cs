@@ -617,7 +617,7 @@ namespace EmbyReports.Api.Data
                 HasImageTagsBackdrop = item.ImageInfos != null && item.ImageInfos.Count(n => n.Type == ImageType.Backdrop) > 0,
                 HasImageTagsLogo = item.ImageInfos != null && item.ImageInfos.Count(n => n.Type == ImageType.Logo) > 0,
                 HasSpecials = item.GetDisplayExtras().Any(),
-                HasSubtitles = video != null ? video.HasSubtitles : false,
+                HasSubtitles = video != null ? video.GetMediaStreams().Any(i => i.Type == MediaStreamType.Subtitle) : false,
                 RowType = ReportHelper.GetRowType(item.GetClientTypeName())
             };
             return rRow;
