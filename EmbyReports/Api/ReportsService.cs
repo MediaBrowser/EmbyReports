@@ -223,7 +223,7 @@ namespace EmbyReports.Api
                 Years = request.GetYears(),
                 ImageTypes = request.GetImageTypes(),
                 Containers = request.GetContainers(),
-                AdjacentTo = request.AdjacentTo,
+                AdjacentTo = _libraryManager.GetInternalId(request.AdjacentTo),
                 ItemIds = ParseIds(request.Ids, _libraryManager),
                 MinPlayers = request.MinPlayers,
                 MaxPlayers = request.MaxPlayers,
