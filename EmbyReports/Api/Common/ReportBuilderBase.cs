@@ -69,11 +69,11 @@ namespace EmbyReports.Api.Common
         /// <returns> The audio stream. </returns>
         protected string GetAudioStream(BaseItem item)
         {
-            var stream = GetStream(item, MediaStreamType.Audio);
+            var stream = item.GetMediaStreams().FirstOrDefault(i => i.Type == MediaStreamType.Audio);
             if (stream != null)
                 return stream.Codec.ToUpper() == "DCA" ? stream.Profile : stream.Codec.
                 ToUpper();
-
+            
             return string.Empty;
         }
 
@@ -273,19 +273,6 @@ namespace EmbyReports.Api.Common
             return productionYear;
         }
 
-        /// <summary> Gets a stream. </summary>
-        /// <param name="item"> The item. </param>
-        /// <param name="streamType"> Type of the stream. </param>
-        /// <returns> The stream. </returns>
-        protected MediaStream GetStream(BaseItem item, MediaStreamType streamType)
-        {
-            var itemInfo = GetMediaSourceInfo(item);
-            if (itemInfo != null)
-                return itemInfo.MediaStreams.FirstOrDefault(n => n.Type == streamType);
-
-            return null;
-        }
-
         /// <summary> Gets a studio. </summary>
         /// <param name="name"> The name. </param>
         /// <returns> The studio. </returns>
@@ -317,12 +304,10 @@ namespace EmbyReports.Api.Common
         /// <returns> The video resolution. </returns>
         protected string GetVideoResolution(BaseItem item)
         {
-            var stream = GetStream(item,
-                    MediaStreamType.Video);
-            if (stream != null && stream.Width != null)
+            if (item.Width > 0 && item.Height > 0)
                 return string.Format("{0} * {1}",
-                        stream.Width,
-                        stream.Height != null ? stream.Height.ToString() : "-");
+                        item.Width,
+                        item.Height);
 
             return string.Empty;
         }
@@ -332,7 +317,7 @@ namespace EmbyReports.Api.Common
         /// <returns> The video stream. </returns>
         protected string GetVideoStream(BaseItem item)
         {
-            var stream = GetStream(item, MediaStreamType.Video);
+            var stream = item.GetMediaStreams().FirstOrDefault(i => i.Type == MediaStreamType.Video);
             if (stream != null)
                 return stream.Codec.ToUpper();
 
