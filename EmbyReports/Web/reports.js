@@ -1,4 +1,4 @@
-﻿define(['jQuery', 'loading', 'appRouter', 'fnchecked', 'emby-linkbutton', 'paper-icon-button-light', 'detailtablecss'], function ($, loading, appRouter) {
+﻿define(['jQuery', 'loading', 'appRouter', 'emby-linkbutton', 'paper-icon-button-light', 'detailtablecss'], function ($, loading, appRouter) {
     'use strict';
 
     if (!jQuery.mobile || !$.mobile.widgets) {
@@ -1616,37 +1616,36 @@
 
         });
 
-        $('#chk3D', page).checked(query.Is3D == true);
-        $('#chkHD', page).checked(query.IsHD == true);
-        $('#chkSD', page).checked(query.IsHD == false);
+        page.querySelector('#chk3D').checked = query.Is3D == true;
+        page.querySelector('#chkHD').checked = query.IsHD == true;
+        page.querySelector('#chkSD').checked = query.IsHD == false;
 
-        $('#chkSubtitle', page).checked(query.HasSubtitles == true);
-        $('#chkTrailer', page).checked(query.HasTrailer == true);
-        $('#chkMissingTrailer', page).checked(query.HasTrailer == false);
-        $('#chkSpecialFeature', page).checked(query.HasSpecialFeature == true);
-        $('#chkThemeSong', page).checked(query.HasThemeSong == true);
-        $('#chkThemeVideo', page).checked(query.HasThemeVideo == true);
+        page.querySelector('#chkSubtitle').checked = query.HasSubtitles == true;
+        page.querySelector('#chkTrailer').checked = query.HasTrailer == true;
+        page.querySelector('#chkMissingTrailer').checked = query.HasTrailer == false;
+        page.querySelector('#chkSpecialFeature').checked = query.HasSpecialFeature == true;
+        page.querySelector('#chkThemeSong').checked = query.HasThemeSong == true;
+        page.querySelector('#chkThemeVideo').checked = query.HasThemeVideo == true;
 
         $('#selectPageSize', page).val(query.Limit);
 
         //Management
-        $('#chkMissingRating', page).checked(query.HasOfficialRating == false);
-        $('#chkMissingOverview', page).checked(query.HasOverview == false);
-        $('#chkIsLocked', page).checked(query.IsLocked == true);
-        $('#chkMissingImdbId', page).checked(query.HasImdbId == false);
-        $('#chkMissingTmdbId', page).checked(query.HasTmdbId == false);
-        $('#chkMissingTvdbId', page).checked(query.HasTvdbId == false);
+        page.querySelector('#chkMissingRating').checked = query.HasOfficialRating == false;
+        page.querySelector('#chkMissingOverview').checked = query.HasOverview == false;
+        page.querySelector('#chkIsLocked').checked = query.IsLocked == true;
+        page.querySelector('#chkMissingImdbId').checked = query.HasImdbId == false;
+        page.querySelector('#chkMissingTmdbId').checked = query.HasTmdbId == false;
+        page.querySelector('#chkMissingTvdbId').checked = query.HasTvdbId == false;
 
         //Episodes
-        $('#chkSpecialEpisode', page).checked(query.ParentIndexNumber == 0);
-        $('#chkMissingEpisode', page).checked(query.IsMissing == true);
-        $('#chkFutureEpisode', page).checked(query.IsUnaired == true);
+        page.querySelector('#chkSpecialEpisode').checked = query.ParentIndexNumber == 0;
+        page.querySelector('#chkMissingEpisode').checked = query.IsMissing == true;
 
         $('#selectIncludeItemTypes').val(query.IncludeItemTypes);
 
         // isfavorite
-        $('#isFavorite').checked(query.IsFavorite == true);
-        $('#isNotFavorite').checked(query.IsNotFavorite == true);
+        page.querySelector('#chkIsFavorite').checked = query.IsFavorite == true;
+        page.querySelector('#chkIsNotFavorite').checked = query.IsNotFavorite == true;
 
 
     }
@@ -2185,22 +2184,6 @@
 
             query.StartIndex = 0;
             query.IsMissing = this.checked ? true : false;
-
-            reloadItems(page);
-        });
-
-        $('#chkFutureEpisode', page).on('change', function () {
-
-            query.StartIndex = 0;
-
-            if (this.checked) {
-                query.IsUnaired = true;
-                query.IsVirtualUnaired = null;
-            } else {
-                query.IsUnaired = null;
-                query.IsVirtualUnaired = false;
-            }
-
 
             reloadItems(page);
         });
