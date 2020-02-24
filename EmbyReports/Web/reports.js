@@ -1359,7 +1359,7 @@
 
     function ExportReport(page, e) {
 
-        query.UserId = Dashboard.getCurrentUserId();
+        query.UserId = ApiClient.getCurrentUserId();
         query.HasQueryLimit = false;
         var url = ApiClient.getUrl("Reports/Items/Download", query);
 
@@ -1370,7 +1370,7 @@
 
     function loadGroupByFilters(page) {
 
-        query.UserId = Dashboard.getCurrentUserId();
+        query.UserId = ApiClient.getCurrentUserId();
         var url = "";
 
         url = ApiClient.getUrl("Reports/Headers", query);
@@ -1555,7 +1555,7 @@
     function reloadItems(page) {
         loading.show();
 
-        query.UserId = Dashboard.getCurrentUserId();
+        query.UserId = ApiClient.getCurrentUserId();
         var url = "";
 
         switch (query.ReportView) {
@@ -1656,12 +1656,12 @@
 
             filtersLoaded = true;
 
-            QueryReportFilters.loadFilters(page, Dashboard.getCurrentUserId(), query, function () {
+            QueryReportFilters.loadFilters(page, ApiClient.getCurrentUserId(), query, function () {
 
                 reloadItems(page);
             });
 
-            QueryReportColumns.loadColumns(page, Dashboard.getCurrentUserId(), query, function () {
+            QueryReportColumns.loadColumns(page, ApiClient.getCurrentUserId(), query, function () {
 
                 reloadItems(page);
             });
@@ -2239,7 +2239,7 @@
 
         page.addEventListener('viewshow', function () {
 
-            query.UserId = Dashboard.getCurrentUserId();
+            query.UserId = ApiClient.getCurrentUserId();
             var page = this;
             query.SortOrder = "Ascending";
 
