@@ -319,7 +319,7 @@ namespace EmbyReports.Api.Common
         {
             var stream = item.GetMediaStreams().FirstOrDefault(i => i.Type == MediaStreamType.Video);
             if (stream != null)
-                return stream.Codec.ToUpper();
+                return stream.Codec?.ToUpper();
 
             return string.Empty;
         }
