@@ -152,7 +152,7 @@ namespace EmbyReports.Api.Activities
                     break;
 
                 case HeaderMetadata.Date:
-                    option.Column = (i, r) => i.Date;
+                    option.Column = (i, r) => i.Date.ToLocalTime().ToString("G");
                     option.Header.SortField = "";
                     option.Header.HeaderFieldType = ReportFieldType.DateTime;
                     option.Header.Type = "";
