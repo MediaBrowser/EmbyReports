@@ -51,14 +51,14 @@ namespace EmbyReports
             {
                 new PluginPageInfo
                 {
-                    Name = "reports",
-                    EmbeddedResourcePath = GetType().Namespace + ".Web.reports.html",
+                    Name = "ReportPluginConfiguration",
+                    EmbeddedResourcePath = GetType().Namespace + ".Configuration.ReportPluginConfiguration.html",
                     EnableInMainMenu = true
                 },
                 new PluginPageInfo
                 {
-                    Name = "reportsjs",
-                    EmbeddedResourcePath = GetType().Namespace + ".Web.reports.js"
+                    Name = "ReportPluginConfigurationJS",
+                    EmbeddedResourcePath = GetType().Namespace + ".Configuration.ReportPluginConfiguration.js"
                 }
             };
         }

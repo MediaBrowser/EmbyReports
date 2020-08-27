@@ -143,18 +143,6 @@ namespace EmbyReports.Api.Common
             return headerName;
         }
 
-        /// <summary> Gets media source information. </summary>
-        /// <param name="item"> The item. </param>
-        /// <returns> The media source information. </returns>
-        protected MediaSourceInfo GetMediaSourceInfo(BaseItem item)
-        {
-            var mediaSource = item as IHasMediaSources;
-            if (mediaSource != null)
-                return mediaSource.GetMediaSources(false).FirstOrDefault(n => n.Type == MediaSourceType.Default);
-
-            return null;
-        }
-
         /// <summary> Gets an object. </summary>
         /// <typeparam name="T"> Generic type parameter. </typeparam>
         /// <typeparam name="R"> Type of the r. </typeparam>

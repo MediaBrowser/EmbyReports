@@ -9,19 +9,6 @@
 
         (function ($, window, undefined) {
 
-            function parentWithClass(elem, className) {
-
-                while (!elem.classList || !elem.classList.contains(className)) {
-                    elem = elem.parentNode;
-
-                    if (!elem) {
-                        return null;
-                    }
-                }
-
-                return elem;
-            }
-
             $.extend($.mobile, {
 
                 // Place to store various widget extensions
