@@ -21,6 +21,7 @@ namespace EmbyReports.Api
 {
     /// <summary> The reports service. </summary>
     /// <seealso cref="T:MediaBrowser.Api.BaseApiService"/>
+    [Authenticated(Roles = "admin")]
     public class ReportsService : IService, IRequiresRequest
     {
         public IRequest Request { get; set; }

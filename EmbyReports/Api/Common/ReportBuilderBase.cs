@@ -283,8 +283,16 @@ namespace EmbyReports.Api.Common
         {
             if (string.IsNullOrEmpty(name))
                 return string.Empty;
+
+            var studio = GetStudio(name);
+
+            if (studio == null)
+            {
+                return null;
+            }
+
             return string.Format("{0:N}",
-                    GetStudio(name).Id);
+                    studio.Id);
         }
 
         /// <summary> Gets video resolution. </summary>
