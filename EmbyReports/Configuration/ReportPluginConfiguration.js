@@ -1351,7 +1351,7 @@
         var url = ApiClient.getUrl("Reports/Items/Download", query);
 
         if (url) {
-            window.location.href = url;
+            window.location.href = url + "&api_key=" + ApiClient.accessToken();
         }
     }
 
