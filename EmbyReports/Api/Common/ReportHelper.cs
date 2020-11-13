@@ -32,7 +32,7 @@ namespace EmbyReports.Api.Common
                 case ReportFieldType.DateTime:
                     return string.Format("{0:g}", value);
                 case ReportFieldType.Minutes:
-                    return string.Format("{0}mn", value);
+                    return value.ToString();
                 case ReportFieldType.Int:
                     return string.Format("", value);
                 default:
