@@ -189,6 +189,7 @@ namespace EmbyReports.Api.Data
                         HeaderMetadata.ImageBackdrop,
                         HeaderMetadata.ImageLogo,
                         HeaderMetadata.Name,
+                        HeaderMetadata.SortName,
                         HeaderMetadata.DateAdded,
                         HeaderMetadata.ReleaseDate,
                         HeaderMetadata.Year,
@@ -197,7 +198,8 @@ namespace EmbyReports.Api.Data
                         HeaderMetadata.CommunityRating,
                         HeaderMetadata.Runtime,
                         HeaderMetadata.Video,
-                        HeaderMetadata.Resolution,
+                        HeaderMetadata.Width,
+                        HeaderMetadata.Height,
                         HeaderMetadata.Audio,
                         HeaderMetadata.Subtitles,
                         HeaderMetadata.Trailers,
@@ -231,6 +233,7 @@ namespace EmbyReports.Api.Data
                         HeaderMetadata.ImageBackdrop,
                         HeaderMetadata.ImageLogo,
                         HeaderMetadata.Name,
+                        HeaderMetadata.SortName,
                         HeaderMetadata.DateAdded,
                         HeaderMetadata.ReleaseDate,
                         HeaderMetadata.Year,
@@ -283,7 +286,8 @@ namespace EmbyReports.Api.Data
                         HeaderMetadata.CommunityRating,
                         HeaderMetadata.Runtime,
                         HeaderMetadata.Video,
-                        HeaderMetadata.Resolution,
+                        HeaderMetadata.Width,
+                        HeaderMetadata.Height,                        
                         HeaderMetadata.Audio,
                         HeaderMetadata.Subtitles,
                         HeaderMetadata.Trailers,
@@ -307,6 +311,7 @@ namespace EmbyReports.Api.Data
                         HeaderMetadata.ImageBackdrop,
                         HeaderMetadata.ImageLogo,
                         HeaderMetadata.Name,
+                        HeaderMetadata.SortName,
                         HeaderMetadata.DateAdded,
                         HeaderMetadata.ReleaseDate,
                         HeaderMetadata.Year,
@@ -315,7 +320,8 @@ namespace EmbyReports.Api.Data
                         HeaderMetadata.CommunityRating,
                         HeaderMetadata.Runtime,
                         HeaderMetadata.Video,
-                        HeaderMetadata.Resolution,
+                        HeaderMetadata.Width,
+                        HeaderMetadata.Height,                        
                         HeaderMetadata.Audio,
                         HeaderMetadata.Subtitles,
                         HeaderMetadata.Trailers,
@@ -385,6 +391,12 @@ namespace EmbyReports.Api.Data
 
                 case HeaderMetadata.Name:
                     option.Column = (i, r) => i.Name;
+                    option.Header.ItemViewType = ItemViewType.Detail;
+                    option.Header.SortField = "SortName";
+                    break;
+
+                case HeaderMetadata.SortName:
+                    option.Column = (i, r) => i.SortName;
                     option.Header.ItemViewType = ItemViewType.Detail;
                     option.Header.SortField = "SortName";
                     break;
@@ -551,8 +563,16 @@ namespace EmbyReports.Api.Data
                     option.Column = (i, r) => this.GetVideoStream(i);
                     break;
 
-                case HeaderMetadata.Resolution:
-                    option.Column = (i, r) => this.GetVideoResolution(i);
+                case HeaderMetadata.Height:
+                    option.Column = (i, r) => this.GetHeight(i);
+                    option.Header.SortField = "Height,SortName";
+                    option.Header.CanGroup = true;
+                    break;
+
+                case HeaderMetadata.Width:
+                    option.Column = (i, r) => this.GetWidth(i);
+                    option.Header.SortField = "Width,SortName";
+                    option.Header.CanGroup = true;
                     break;
 
                 case HeaderMetadata.Subtitles:

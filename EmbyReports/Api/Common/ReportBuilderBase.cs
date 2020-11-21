@@ -295,15 +295,22 @@ namespace EmbyReports.Api.Common
                     studio.Id);
         }
 
-        /// <summary> Gets video resolution. </summary>
+        /// <summary> Gets video resolution - Height and Width. </summary>
         /// <param name="item"> The item. </param>
         /// <returns> The video resolution. </returns>
-        protected string GetVideoResolution(BaseItem item)
+        protected string GetHeight(BaseItem item)
         {
-            if (item.Width > 0 && item.Height > 0)
-                return string.Format("{0} * {1}",
-                        item.Width,
+            if (item.Height > 0)
+                return string.Format("{0}",
                         item.Height);
+
+            return string.Empty;
+        }
+        protected string GetWidth(BaseItem item)
+        {
+            if (item.Width > 0)
+                return string.Format("{0}",
+                        item.Width);
 
             return string.Empty;
         }
