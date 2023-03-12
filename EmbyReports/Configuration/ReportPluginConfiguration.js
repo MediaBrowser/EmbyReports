@@ -1,4 +1,4 @@
-﻿define(['jQuery', 'loading', 'appRouter', 'emby-linkbutton', 'paper-icon-button-light', 'detailtablecss'], function ($, loading, appRouter) {
+﻿define(['baseView', 'jQuery', 'loading', 'appRouter', 'emby-linkbutton', 'paper-icon-button-light', 'detailtablecss', 'emby-scroller'], function (BaseView, $, loading, appRouter) {
     'use strict';
 
     if (!jQuery.mobile || !$.mobile.widgets) {
@@ -198,11 +198,11 @@
                     // don't prefix for widgets that aren't DOM-based
                     widgetEventPrefix: existingConstructor ? (basePrototype.widgetEventPrefix || name) : name
                 }, proxiedPrototype, {
-                        constructor: constructor,
-                        namespace: namespace,
-                        widgetName: name,
-                        widgetFullName: fullName
-                    });
+                    constructor: constructor,
+                    namespace: namespace,
+                    widgetName: name,
+                    widgetFullName: fullName
+                });
 
                 // If this widget is being redefined then we need to find all widgets that
                 // are inheriting from it and redefine all of them so that they inherit from
@@ -1889,7 +1889,11 @@
         onPageShow: onPageReportColumnsShow
     };
 
-    return function (page, params) {
+    function View(view, params) {
+
+        BaseView.apply(this, arguments);
+
+        var page = view;
 
         $(page).trigger('create');
 
@@ -2223,21 +2227,29 @@
             $('.viewTab', parent).addClass('hide');
             $('.' + this.getAttribute('data-tab'), parent).removeClass('hide');
         });
+    }
 
-        page.addEventListener('viewshow', function () {
+    Object.assign(View.prototype, BaseView.prototype);
 
-            query.UserId = ApiClient.getCurrentUserId();
-            var page = this;
-            query.SortOrder = "Ascending";
+    View.prototype.onResume = function (options) {
 
-            QueryReportFilters.onPageShow(page, query);
-            QueryReportColumns.onPageShow(page, query);
-            $('#selectIncludeItemTypes', page).val(query.IncludeItemTypes).trigger('change');
+        BaseView.prototype.onResume.apply(this, arguments);
 
-            updateFilterControls(page);
+        loading.show();
 
-            filtersLoaded = false;
-            updateFilterControls(this);
-        });
+        query.UserId = ApiClient.getCurrentUserId();
+        var page = this.view;
+        query.SortOrder = "Ascending";
+
+        QueryReportFilters.onPageShow(page, query);
+        QueryReportColumns.onPageShow(page, query);
+        $('#selectIncludeItemTypes', page).val(query.IncludeItemTypes).trigger('change');
+
+        updateFilterControls(page);
+
+        filtersLoaded = false;
+        updateFilterControls(this);
     };
+
+    return View;
 });
