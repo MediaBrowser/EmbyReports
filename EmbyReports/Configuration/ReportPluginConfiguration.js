@@ -2248,7 +2248,7 @@
         updateFilterControls(page);
 
         filtersLoaded = false;
-        updateFilterControls(this);
+        updateFilterControls(page);
     };
 
     return View;
