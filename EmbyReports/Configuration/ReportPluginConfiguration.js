@@ -693,7 +693,6 @@
                 position: "left",
                 dismissible: true,
                 display: "overlay", //accepts reveal, push, overlay
-                swipeClose: true,
                 positionFixed: true
             },
 
@@ -733,8 +732,6 @@
                 if (!!this.options.dismissible) {
                     this._createModal();
                 }
-
-                this._bindSwipeEvents();
             },
 
             _getPanelInner: function () {
@@ -875,24 +872,6 @@
                         });
                     }
                     this.toggle();
-                }
-            },
-
-            _bindSwipeEvents: function () {
-                var self = this,
-                    area = self._modal ? self.element.add(self._modal) : self.element;
-
-                // on swipe, close the panel
-                if (!!self.options.swipeClose) {
-                    if (self.options.position === "left") {
-                        area.on("swipeleft.panel", function (/* e */) {
-                            self.close();
-                        });
-                    } else {
-                        area.on("swiperight.panel", function (/* e */) {
-                            self.close();
-                        });
-                    }
                 }
             },
 
@@ -1084,16 +1063,12 @@
 
             _destroy: function () {
                 var otherPanels,
-                    o = this.options,
-                    multiplePanels = ($("body > :mobile-panel").length + $.mobile.activePage.find(":mobile-panel").length) > 1;
+                    o = this.options;
 
                 if (o.display !== "overlay") {
 
                     //  remove the wrapper if not in use by another panel
-                    otherPanels = $("body > :mobile-panel").add($.mobile.activePage.find(":mobile-panel"));
-                    if (otherPanels.not(".ui-panel-display-overlay").not(this.element).length === 0) {
-                        this._wrapper.children().unwrap();
-                    }
+                    this._wrapper.children().unwrap();
 
                     if (this._open) {
 
@@ -1105,11 +1080,7 @@
                     }
                 }
 
-                if (!multiplePanels) {
-
-                    this.document.off("panelopen panelclose");
-
-                }
+                this.document.off("panelopen panelclose");
 
                 if (this._open) {
                     this._page().removeData("panel");
@@ -1119,7 +1090,6 @@
 
                 this.element
                     .removeClass([this._getPanelClasses(), "ui-panel-open", "ui-panel-animate"].join(" "))
-                    .off("swipeleft.panel swiperight.panel")
                     .off("panelbeforeopen")
                     .off("panelhide")
                     .off("keyup.panel")
@@ -2226,6 +2196,10 @@
 
             $('.viewTab', parent).addClass('hide');
             $('.' + this.getAttribute('data-tab'), parent).removeClass('hide');
+        });
+
+        page.querySelector('.btnOpenMore').addEventListener('click', function () {
+            jQuery('.viewPanel', page).panel('toggle');
         });
     }
 
