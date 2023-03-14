@@ -354,13 +354,20 @@
         <div class="listBottomPaging">
         </div>
 
-        <div data-role="panel" id="viewPanel" class="viewPanel" data-position="right" data-display="overlay" data-position-fixed="true">
-            <form>
+        <div data-role="panel" id="viewPanel" class="viewPanel dialog popup ui-panel ui-panel-fixed ui-panel-animate ui-panel-position-right ui-panel-display-reveal ui-panel-dismiss-open hide" data-position="right" data-display="overlay" data-position-fixed="true">
+            <form style="padding:1em 1.5em;">
+
+                <div style="text-align:right;">
+                    <button type="button" is="emby-button" class="raised raised-mini btnClosePopup" style="margin:0;">
+                        <i class="md-icon button-icon button-icon-left">close</i>
+                        <span>Close</span>
+                    </button>
+                </div>
+
                 <div class="viewPanelTabs">
                     <a is="emby-linkbutton" href="#" id="tabView" data-role="button" class="viewTabButton ui-btn-active" data-tab="tabView">View</a>
                     <a is="emby-linkbutton" href="#" id="tabFilter" data-role="button" class="viewTabButton" data-tab="tabFilter">Filter</a>
                 </div>
-
 
 
                 <div class="tabView viewTab" id="tabViewBox">
