@@ -1,4 +1,4 @@
-﻿define(['baseView', 'jQuery', 'loading', 'appRouter', 'emby-linkbutton', 'paper-icon-button-light', 'detailtablecss', 'emby-scroller'], function (BaseView, $, loading, appRouter) {
+﻿define(['baseView', 'jQuery', 'loading', 'appRouter', 'emby-linkbutton', 'paper-icon-button-light', 'emby-scroller'], function (BaseView, $, loading, appRouter) {
     'use strict';
 
     var defaultSortBy = "SortName";
