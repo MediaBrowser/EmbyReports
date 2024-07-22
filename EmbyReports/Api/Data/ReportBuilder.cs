@@ -287,7 +287,7 @@ namespace EmbyReports.Api.Data
                         HeaderMetadata.Runtime,
                         HeaderMetadata.Video,
                         HeaderMetadata.Width,
-                        HeaderMetadata.Height,                        
+                        HeaderMetadata.Height,
                         HeaderMetadata.Audio,
                         HeaderMetadata.Subtitles,
                         HeaderMetadata.Trailers,
@@ -321,7 +321,7 @@ namespace EmbyReports.Api.Data
                         HeaderMetadata.Runtime,
                         HeaderMetadata.Video,
                         HeaderMetadata.Width,
-                        HeaderMetadata.Height,                        
+                        HeaderMetadata.Height,
                         HeaderMetadata.Audio,
                         HeaderMetadata.Subtitles,
                         HeaderMetadata.Trailers,
@@ -383,7 +383,7 @@ namespace EmbyReports.Api.Data
                     option.Header.CanGroup = false;
                     option.Header.DisplayType = ReportDisplayType.Export;
                     break;
-                    
+
                 case HeaderMetadata.Path:
                     option.Column = (i, r) => i.Path;
                     option.Header.SortField = "Path,SortName";
@@ -549,7 +549,7 @@ namespace EmbyReports.Api.Data
                     break;
 
                 case HeaderMetadata.Tracks:
-                    option.Column = (i, r) => this.GetObject<MusicAlbum, List<Audio>>(i, (x) => x.GetTracks(new InternalItemsQuery()).Items.OfType<Audio>().ToList(), new List<Audio>()).Count();
+                    option.Column = (i, r) => this.GetObject<MusicAlbum, List<Audio>>(i, (x) => x.GetItems(new InternalItemsQuery() { Recursive = true, IsFolder = false }).Items.OfType<Audio>().ToList(), new List<Audio>()).Count();
                     break;
 
                 case HeaderMetadata.Audio:
